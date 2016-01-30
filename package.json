@@ -1,35 +1,40 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "BabyDue2016",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "Baby due date poll",
   "keywords": [
-    "OpenShift",
-    "Node.js",
-    "application",
-    "openshift"
+    "Baby",
+    "Bebé",
+    "H. Paúl",
+    "Elísabeth"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "name": "H. Paúl Cervera García",
+    "email": "hpcergar@gmail.com",
+    "url": "http://babydue-hpcergar.rhcloud.com"
   },
-  "homepage": "http://www.openshift.com/",
+  "homepage": "http://babydue-hpcergar.rhcloud.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/openshift/origin-server"
   },
-
   "engines": {
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"
   },
-
   "dependencies": {
-    "express": "~3.4.4"
+    "body-parser": "^1.14.2",
+    "express": "^3.21.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.4.5",
+    "supertest": "^1.1.0"
+  },
   "bundleDependencies": [],
-
   "private": true,
-  "main": "server.js"
+  "main": "app.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha test.js"
+  }
 }
