@@ -24,7 +24,9 @@
   },
   "dependencies": {
     "body-parser": "^1.14.2",
-    "express": "^3.21.2"
+    "express": "^4.13.3",
+    "moment": "^2.11.2",
+    "validator": "^4.7.1"
   },
   "devDependencies": {
     "chai": "^3.4.1",

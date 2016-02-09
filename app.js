@@ -1,5 +1,5 @@
 var express = require('express'),
-    bets = require('routes/bets')
+    bets = require('./routes/bets')
     ;
 
 var Main = function(){
@@ -34,8 +34,8 @@ var Main = function(){
         self.setupVariables();
         self.initializeServer();
 
-        self.app.listen(port, function(){
-            console.log('Starting app');
+        self.app.listen(self.port, function(){
+            console.log('Starting app on port ' + self.port);
         });
     }
 };

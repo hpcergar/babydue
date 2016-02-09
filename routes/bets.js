@@ -1,26 +1,40 @@
 var express = require('express'),
     app = express(),
-    router = express.Router();
+    bodyParser = require('body-parser'),
+    urlencoded = bodyParser.urlencoded({ extended: false}),
+    router = express.Router(),
+    bets = require('../controller/bets')
+    ;
 
 
 router.route('/')
     .get(function (request, response) {
-        // TODO List bets mapped by date
+        bets.get(function(error, names){
+            if(error){ throw error;}
+            response.json( names );
+        });
     })
 
-    .post(function (request, response) {
-        // TODO Check availability of date
-        // TODO Save bet by email
+    .post(urlencoded, function (request, response) {
+        // TODO The whole body? What about security args when posting?
+        bets.save(request.body, function(error){
+            if(error) throw error;
+            response
+                .status(201)
+                .json(request.body);
+        });
     })
 ;
 
 
 router.route('/:email')
     .put(function (request, response) {
-        var email = request.params.email;
-
-        // TODO Check availability of date
-        // TODO Update bet by email
+        bets.save(request.body, function(error){
+            if(error) throw error;
+            response
+                .status(201)
+                .json(request.body);
+        });
     })
 ;
 
