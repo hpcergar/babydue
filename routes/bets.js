@@ -10,7 +10,12 @@ var express = require('express'),
 router.route('/')
     .get(function (request, response) {
         bets.get(function(error, names){
-            if(error){ throw error;}
+            if(error){
+                response
+                    .status(404)
+                    .json({ error: error.message });
+                return;
+            }
             response.json( names );
         });
     })
@@ -18,7 +23,13 @@ router.route('/')
     .post(urlencoded, function (request, response) {
         // TODO The whole body? What about security args when posting?
         bets.save(request.body, function(error){
-            if(error) throw error;
+            if(error){
+                response
+                    .status(409)
+                    .json({ error: error.message });
+                return;
+            }
+
             response
                 .status(201)
                 .json(request.body);
@@ -30,7 +41,13 @@ router.route('/')
 router.route('/:email')
     .put(function (request, response) {
         bets.save(request.body, function(error){
-            if(error) throw error;
+            if(error){
+                response
+                    .status(404)
+                    .json({ error: error.message });
+                return;
+            }
+
             response
                 .status(201)
                 .json(request.body);

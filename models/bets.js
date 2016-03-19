@@ -25,6 +25,7 @@ exports.getAll = getBets;
 function getData(callback){
     if(dataCached){
         callback(null, dataCached);
+        return;
     }
     getDataFromFile(callback);
 }
@@ -35,12 +36,20 @@ function getData(callback){
  */
 function getDataFromFile(callback){
     // Find in file
-    fs.readFile(file, function(err, data){
-        if(err) callback(new Error('No data source available'), null);
-        dataCached = JSON.parse(data);
-        console.log('Data retrieved from file');
-        callback(null, dataCached);
-    });
+    //fs.readFile(file, 'utf8', function(err, data){
+    //    if(err) callback(new Error('No data source available'), null);
+    //    dataCached = JSON.parse(data);
+    //    console.log('Data retrieved from file');
+    //    callback(null, dataCached);
+    //});
+
+    // Change to sync version due to multiple callback calls in async
+    var data = fs.readFileSync(file, 'utf8');
+
+    dataCached = JSON.parse(data);
+    console.log('Data retrieved from file');
+
+    callback(null, dataCached);
 }
 
 /**
@@ -50,7 +59,9 @@ function getDataFromFile(callback){
  * @param callback
  */
 function flush(callback){
-    fs.writeFile(file, dataCached, function(err){
+
+    var data = JSON.stringify(dataCached);
+    fs.writeFile(file, data, function(err){
         if(err) throw err;
         console.log('Flushed');
         callback();
@@ -63,7 +74,11 @@ function flush(callback){
  */
 function getBets(callback){
     getData(function(err, data){
-        if(err) callback(err, data);
+        if(err){
+            callback(err, data);
+            return;
+        }
+
         // Get only bets
         callback(null, data.bets);
     })
@@ -79,7 +94,7 @@ function getGenders(){
 }
 
 /**
- * Save to cached buffedata
+ * Save to cached buffer data
  * @param data
  */
 function saveBet(data){
@@ -95,15 +110,92 @@ function saveBet(data){
     console.log('Bet cached in data');
 }
 
+/**
+ * Delete from cached buffer data
+ * @param data
+ */
+function deleteBet(data){
+    var bets = dataCached.bets;
+    if(data && bets[data.date]){
+        delete bets[data.date][data.gender];
+        console.log('Bet removed from cached data');
+    }
+
+    dataCached.bets = bets;
+
+    console.log('Nothing to remove');
+}
 
 
+/**
+ *
+ * @param email
+ * @param callback
+ */
 function deleteByEmail(email, callback){
 
-    // TODO
-    console.log('Deleted by email');
-
-    console.log('Nothing to delete');
+    findByEmail(email, function(err, data){
+        if(err){
+            callback(err);
+            return;
+        }
+        if(data){
+            deleteBet(data);
+        }
+        callback();
+    });
 }
+
+function findByEmail(email, callback){
+    // Map bets by email
+    getBets(function(err, data){
+        var map = mapByEmail(data),
+            returnedData
+            ;
+
+        if(err){
+            callback(err);
+            return;
+        }
+
+        // If not found, return
+        if(!map[email]){
+            console.log('Email ' + email + ' not found');
+        }else{
+            returnedData = map[email];
+            returnedData.email = email;
+            console.log('Email ' + email + ' found');
+        }
+
+        callback(null, returnedData);
+    });
+}
+
+/**
+ * Map cached data into a list of emails with selected date and gender
+ * @param data
+ * @returns {{}}
+ */
+function mapByEmail(data){
+    var map = {};
+
+    // Loop over dates
+    for (var date in data) {
+        if (data.hasOwnProperty(date)){
+            // Loop over possible genders
+            for (var gender in data[date]) {
+                if (data[date].hasOwnProperty(gender)){
+                    // Set a list of emails-based key with selected date and gender
+                    map[data[date][gender]] = {date : date, gender : gender}
+                }
+            }
+        }
+    }
+
+    return map;
+}
+
+
 
 
 /**
@@ -124,10 +216,10 @@ exports.isValidGender = function(gender){
  * @param callback
  */
 exports.isBetAvailable = function(bet, callback){
-    getData(function(err, data){
-        // TODO this is not correct
-        if(data[bet.date] && data[bet.date].gender == bet.gender && data[bet.date].email != bet.email){
-            callback( new Error('Date taken by ' + data[bet.date].email) );
+    getBets(function(err, data){
+        if(data[bet.date] && data[bet.date][bet.gender] && data[bet.date][bet.gender] != bet.email){
+            callback( new Error('Date already taken by ' + data[bet.date][bet.gender]) );
+            return;
         }
 
         console.log('Bet available');
@@ -139,7 +231,10 @@ exports.isBetAvailable = function(bet, callback){
 exports.save = function(data, callback){
     // TODO Remove previous bet if found for email
     deleteByEmail(data.email, function(err){
-        if(err) callback(err);
+        if(err){
+            callback(err);
+            return;
+        }
         // TODO save to JSON and save
         saveBet(data);
         flush(callback);

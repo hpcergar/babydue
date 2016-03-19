@@ -23,6 +23,21 @@ describe('Requests to the root path', function () {
 
 });
 
+
+describe('Get bets', function () {
+    it('Returns a 201 status code', function (done) {
+        request(app)
+            .get('/bets')
+            // TODO security email/signature
+            .expect(201, done);
+    });
+    it('Returns the bet', function (done) {
+        request(app)
+            .get('/bets')
+            .expect('Content-Type', /json/, done);
+    });
+});
+
 describe('Creating new bet', function () {
     it('Returns a 201 status code', function (done) {
         request(app)

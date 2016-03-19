@@ -1,6 +1,5 @@
 'use strict';
 
-// TODO
 var model = require('../models/bets'),
     // Date validation & transform
     moment = require('moment'),
@@ -20,11 +19,11 @@ exports.get = function (callback) {
 exports.save = function (params, callback) {
 
     // TODO Data validation
-    var date = moment(params.date),
+    var date = params.date,
         email = params.email,
         gender = params.gender
         ;
-    if(!date.isValid()){callback(new Error('Invalid date'), null);}
+    if(!moment(date).isValid() || !params.date){callback(new Error('Invalid date'), null);}
     if(!validator.isEmail(email)){callback(new Error('Invalid email'), null);}
     if(!model.isValidGender(gender)){callback(new Error('Invalid gender'), null);}
 
@@ -36,7 +35,10 @@ exports.save = function (params, callback) {
                 "gender" : "m", // m, f, d (dragon)
                 }
                 */
-        if(err) callback(new Error('Date unavailable'), null);
+        if(err){
+            callback(new Error('Date unavailable'), null);
+            return;
+        }
 
         // TODO Save bet by email
         model.save({
