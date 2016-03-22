@@ -26,9 +26,9 @@ var Main = function(){
     };
 
     self.createRoutes = function(){
-        self.app.use(express.static('public'));
+        self.app.use('/', express.static('public'));
 
-        // TODO Add security layer
+        // Add security layer
         self.app.use('/bets', security);
 
         self.app.use('/bets', bets);
