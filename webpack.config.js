@@ -1,6 +1,7 @@
 'use strict';
 
-var webpack = require('webpack');
+var webpack = require('webpack'),
+    path = require('path');
 
 module.exports = {
     entry: {
@@ -17,6 +18,38 @@ module.exports = {
         publicPath: '/js/'
     },
 
+    node: {
+        fs: "empty"
+    },
+
+    module: {
+        loaders: [
+            {
+                loader: 'babel-loader',
+                test: path.join(__dirname, 'public/js'),
+                query: {
+                    presets: 'es2015'
+                }
+            },
+            {
+                test: /\.hbs/,
+                loader: "handlebars-loader",
+                query: {
+                    exclude:'node_modules',
+                    helperDirs: [
+                        __dirname + "/public/js/Helpers/Handlebars"
+                    ]
+                }
+                // debug:true,
+                // query: {
+                //     helperDirs: [
+                //         path.resolve("public/js/Helpers/Handlebars")
+                //     ]
+                // }
+            }
+        ]
+    },
+
     resolve: {
         // Absolute path that contains modules
         root: __dirname,
@@ -26,8 +59,12 @@ module.exports = {
 
         // Replace modules with other modules or paths for compatibility or convenience
         alias: {
-            'underscore': 'lodash'
+            'underscore': 'lodash',
+            'handlebars': 'handlebars/runtime.js'
         }
-    }
+    },
+
+    // Create Sourcemaps for the bundle
+    devtool: 'source-map',
 
 };

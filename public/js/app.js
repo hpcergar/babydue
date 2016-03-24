@@ -1,10 +1,20 @@
 import 'es5-shim';
 
-import Backbone from 'backbone';
-// import Workspace from 'routers/router';
-import $ from 'jquery';
+import App from 'Router/Router';
+import Messages from 'Lib/Messages';
+import _ from 'lodash';
 
 
-// new Workspace();
-Backbone.history.start();
-alert('There!');
+var lang = navigator.language,
+    conf = _.extend({
+        LANG: /fr/.test(lang) ? 'fr' : (/es/.test(lang) ? 'es' : 'en')
+    });
+
+// Init I18n
+Messages.setDictionary(conf.LANG);
+
+// Go!
+var app = new App(conf);
+
+app.start();
+
