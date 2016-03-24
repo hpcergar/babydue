@@ -40,12 +40,6 @@ module.exports = {
                         __dirname + "/public/js/Helpers/Handlebars"
                     ]
                 }
-                // debug:true,
-                // query: {
-                //     helperDirs: [
-                //         path.resolve("public/js/Helpers/Handlebars")
-                //     ]
-                // }
             }
         ]
     },

@@ -3,6 +3,7 @@ define(function(require){
 
     var _ = require('underscore'),
         $ = require('jquery'),
+        datepicker = require('jquery-ui/datepicker'),
         Backbone = require('backbone'),
         template = require('./Templates/Main.hbs')
     ;
@@ -12,6 +13,14 @@ define(function(require){
         
         render: function(){
             this.$el.html(template);
+
+            // Load Calendar
+            // TODO fetch and add data
+            this.$el.find('#calendar')
+                .datepicker({
+                    numberOfMonths: 2,
+                });
+
             return this;
         }
     });

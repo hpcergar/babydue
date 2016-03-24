@@ -27,6 +27,7 @@ var Main = function(){
 
     self.createRoutes = function(){
         self.app.use('/', express.static('public'));
+        self.app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 
         // Add security layer
         self.app.use('/bets', security);

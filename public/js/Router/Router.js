@@ -42,7 +42,7 @@ define(function(require) {
             return this;
         },
         index: function () {
-
+            document.title = t('title');
         }
     });
     
