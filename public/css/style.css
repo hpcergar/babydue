@@ -1,0 +1,33 @@
+
+
+
+.dayWithBets {
+    position: relative;
+}
+
+    .currentSelection {
+        background-color: #8bcc6b;
+    }
+
+/*replace the content value with the
+corresponding value from the list below*/
+
+/* Gender classes default */
+i.m, i.f, i.d{
+
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color: #000;
+    font-size: 18px;
+    padding-right: 0.5em;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+/* Gender classes, one each */
+i.m { content: "\f222";}
+i.f { content: "\f221";}
+i.d { content: "\f1d0";} /* TODO */

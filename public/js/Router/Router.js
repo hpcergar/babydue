@@ -19,8 +19,12 @@ define(function(require) {
             "": "index"
         },
 
-        initialize: function () {
+        initialize: function (conf) {
+            this.conf = conf;
             var $rootEl = $('body');
+
+            // Global object
+            window.app = this;
 
             /*
             this.betListModel = new BetListModel();
@@ -35,6 +39,8 @@ define(function(require) {
             // $rootEl.append($('<div>' + t('token_fail') + '</div>'));
 
             // this.betListModel.fetch();
+            
+
         },
 
         start: function () {

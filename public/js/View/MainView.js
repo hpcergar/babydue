@@ -5,22 +5,28 @@ define(function(require){
         $ = require('jquery'),
         datepicker = require('jquery-ui/datepicker'),
         Backbone = require('backbone'),
-        template = require('./Templates/Main.hbs')
+        template = require('./Templates/Main.hbs'),
+        CalendarView = require('./CalendarView')
     ;
     
     var MainView = Backbone.View.extend({
         template: template,
+
+        initialize: function(){
+
+            // TODO Main events here (Flash messages? Popup?)
+            
+            this.calendarView = new CalendarView();
+        },
         
         render: function(){
             this.$el.html(template);
 
             // Load Calendar
-            // TODO fetch and add data
-            this.$el.find('#calendar')
-                .datepicker({
-                    numberOfMonths: 2,
-                });
-
+            this.$el.find('#calendar').append(
+                this.calendarView.render().$el
+            );
+            
             return this;
         }
     });

@@ -30,7 +30,9 @@ var Main = function(){
         self.app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
 
         // Add security layer
-        self.app.use('/bets', security);
+
+        // TODO enable!!!
+        // self.app.use('/bets', security);
 
         self.app.use('/bets', bets);
     };

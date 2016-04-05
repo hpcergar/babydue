@@ -5,15 +5,21 @@ var express = require('express'),
     ;
 
 router.use(function(request, response, next){
-    // TODO switch lines back
     var email = request.query.email,
         signature = request.query.signature;
     if(!email || !signature || !security.validate(email, signature)){
         console.log('Error params: Email [' + email + '], Signature [' + signature + ']');
-        return next(new HttpException(401, 'Unauthorized'));
+        var error = new Error('Unauthorized');
+        error.status = 401;
+        return next(error);
     }
 
     next();
+},
+// Error handle middleware
+function(err, req, res, next){
+    console.error(err.stack);
+    res.status(err.status).send(err.message);
 });
 
 
