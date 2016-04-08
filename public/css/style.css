@@ -1,8 +1,30 @@
 
-
+/* Datepicker */
+.ui-datepicker-multi-2{
+    width: auto !important;
+    min-width: 35em;
+    max-width: 80%;
+    margin: 0 auto;
+}
+.ui-datepicker-multi .ui-datepicker-group {
+    float: left;
+}
+.ui-helper-clearfix::before, .ui-helper-clearfix::after {
+    border-collapse: collapse;
+    content: "";
+    display: table;
+}
+.ui-helper-clearfix::after {
+    clear: both;
+}
+.ui-helper-clearfix::before, .ui-helper-clearfix::after {
+    border-collapse: collapse;
+    content: "";
+    display: table;
+}
 
 .dayWithBets {
-    position: relative;
+
 }
 
     .currentSelection {
@@ -15,16 +37,13 @@ corresponding value from the list below*/
 /* Gender classes default */
 i.m, i.f, i.d{
 
-    font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
     text-decoration: inherit;
     color: #000;
-    font-size: 18px;
-    padding-right: 0.5em;
-    position: absolute;
-    top: 10px;
-    left: 0;
+    font-size: 1.5em;
+    padding-right: 0.1em;
+
 }
 
 /* Gender classes, one each */

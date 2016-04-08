@@ -1,1 +1,7 @@
-{{#if d}}<i class="d"></i>{{/if}}{{#if f}}<i class="f"></i>{{/if}}{{#if m}}<i class="m"></i>{{/if}}
+{{#each bets}}
+<i class="fa
+{{#is this.gender 'd'}}fa-ra{{/is}}
+{{#is this.gender 'f'}}fa-venus{{/is}}
+{{#is this.gender 'm'}}fa-mars{{/is}}
+ {{this.gender}}" title="{{this.email}}"></i>
+{{/each}}

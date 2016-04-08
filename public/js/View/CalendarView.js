@@ -5,30 +5,21 @@ define(function (require) {
         $ = require('jquery'),
         jQuery = require('jquery'),
         dateHelper = require('../Helpers/Date').default,
-        // datepicker = require('jquery-ui/datepicker'),
-        // datepickerOriginal = require('jquery-ui/datepicker'),
         datepicker = require('../Helpers/DatepickerCustom'),
         Backbone = require('backbone'),
         dateBetSetCollection = require('../Model/DateBetSetCollection').default,   // Yes, as it's exporting the "default" object
+        ModalView = require('./ModalView'),
         template = require('./Templates/CalendarIcons.hbs')
-    // ,
-    // BetCollection = require('../Model/BetCollection'),
-    // betCollection = new BetCollection();
         ;
-
-    // TODO Dirty hack
-    // $(function () {
-    //     $.datepicker._updateDatepicker_original = $.datepicker._updateDatepicker;
-    //     $.datepicker._updateDatepicker = function (inst) {
-    //         $.datepicker._updateDatepicker_original(inst);
-    //         var afterShow = this._get(inst, 'afterShow');
-    //         if (afterShow)
-    //             afterShow.apply((inst.input ? inst.input[0] : null));  // trigger custom callback
-    //     }
-    // });
 
     var CalendarView = Backbone.View.extend({
 
+        stateModel: new (Backbone.Model.extend({
+            defaults: {
+                
+            }
+        }))(),
+        
         template: template,
 
         defaults: {
@@ -39,16 +30,22 @@ define(function (require) {
         // List of bets
 
 
-        initialize: function () {
+        initialize: function (options) {
+
+            this.observer = options.observer;
 
             // Main events here
             this.listenTo(dateBetSetCollection, 'reset', this.addAll); // When fetching / reset
 
             // TODO Event listenTo Collection event (add? update?)
-            this.listenTo(dateBetSetCollection, 'TODO', this.render); // TODO Change event?
+            //this.listenTo(dateBetSetCollection, 'TODO', this.render); // TODO Change event?
 
-            // Fetch bets data
-            dateBetSetCollection.fetch({reset: true});
+            // After sending a bet in the modal, refresh display 
+            // TODO trigger event in modalView
+            this.listenTo(this.stateModel, 'refresh', this.loadData);
+
+            // Fetch initial bets data
+            this.loadData();
         },
 
         render: function () {
@@ -73,6 +70,10 @@ define(function (require) {
 
             return this;
         },
+        
+        loadData: function(){
+            dateBetSetCollection.fetch({reset: true});
+        },
 
         /**
          * Method to be executed for each day in the calendar
@@ -83,15 +84,13 @@ define(function (require) {
         calendarEachDay: function (date) {
             var d = dateHelper.parseIsoDate(date),
                 currentBets = dateBetSetCollection.findByDate(d),
-                classes = [],
-                tooltip = []
+                classes = []
                 ;
             // Get css classes and tooltips
             if (undefined !== currentBets && currentBets.get('betCollection').length > 0) {
                 classes.push('dayWithBets');
                 currentBets.get('betCollection').forEach(function (bet) {
                     classes.push(bet.get('gender'));
-                    tooltip.push(bet.get('name'));
 
                     // Current User's css class
                     if (bet.get('email') == window.app.conf.EMAIL) {
@@ -100,40 +99,48 @@ define(function (require) {
                 });
             }
 
-            return [true, classes.join(' '), tooltip.join(' - ')];
+            return [true, classes.join(' '), ''];
         },
 
+        /**
+         * When rendered, add bets icons 
+         */
         calendarAddIcons: function () {
 
+            if(false == dateBetSetCollection.size()){
+                return;
+            }
+            
             this.$el.find('.dayWithBets').each(_.bind(function (i, v) {
-                var fragment = document.createDocumentFragment(),
-                    classes = v.className.split(' '),
-                    context =  {
-                        m: classes.indexOf('m') !== -1,
-                        f: classes.indexOf('f') !== -1,
-                        d: classes.indexOf('d') !== -1
-                    }
+                var link = v.getElementsByTagName("a")[0],
+                    d = dateHelper.parseStringDate(v.getAttribute('data-year'), v.getAttribute('data-month'), link.innerHTML),
+                    currentBets = dateBetSetCollection.findByDate(d),
+                    context = {bets: currentBets.get('betCollection').toJSON()}
                     ;
-                // $(v).append(jQuery.parseHTML(this.template(context)));
-                // fragment.innerHTML(this.template(context));
-                v.insertAdjacentHTML('beforeend', this.template(context));
+                
+                link.insertAdjacentHTML('afterbegin', this.template(context));
             }, this));
-            // TODO Add icons once calendar is rendered
-            console.log('calendarAddIcons');
-
         },
 
+        // TODO
         calendarSelect: function (date) {
-            var d = date.toISOString().substring(0, 10),
+            var d = dateHelper.parseIsoDate(date),
                 currentBets = dateBetSetCollection.findByDate(d);
-
-            // TODO Trigger the modal with bets as parameter
-            // TODO Trigger event on the observer for the modal?
+            
+            // TODO Instantiate new view ModalView
+            // Send this.stateModel as observer
+            this.observer.trigger('showModal', {
+                view:new ModalView({
+                    observer:this.stateModel,
+                    onSuccess:'refresh',
+                    currentBets:currentBets
+                })
+            });
         },
 
-        // TODO Prepare calendar data
+        // Prepare calendar data
         addAll: function () {
-            // TODO Set current user if it exists
+            // Set current user if it exists
             this.currentUserBet = dateBetSetCollection.findBetByEmail(window.app.conf.EMAIL || '');
 
             this.render();

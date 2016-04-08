@@ -1,5 +1,13 @@
 class DateHelper{
     
+    static parseStringDate(year, month, day){
+        return year
+            + '-'
+            + DateHelper.strPad(parseInt(month) + 1)
+            + '-'
+            + DateHelper.strPad(day);
+    }
+    
     static parseIsoDate(date){
         return date.getFullYear()
             + '-'
@@ -14,7 +22,8 @@ class DateHelper{
      * @returns {string}
      */
     static strPad(n){
-        return n<10 ? '0' + n : n;
+        n = n.toString();
+        return (+n<10) ? '0' + n : n;
     }
 }
 

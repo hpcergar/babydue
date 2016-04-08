@@ -28,6 +28,7 @@ var Main = function(){
     self.createRoutes = function(){
         self.app.use('/', express.static('public'));
         self.app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
+        self.app.use('/jquery-ui', express.static(__dirname + '/node_modules/jquery-ui/themes/base/minified'));
 
         // Add security layer
 
