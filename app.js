@@ -29,11 +29,12 @@ var Main = function(){
         self.app.use('/', express.static('public'));
         self.app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist'));
         self.app.use('/jquery-ui', express.static(__dirname + '/node_modules/jquery-ui/themes/base/minified'));
+        self.app.use('/remodal', express.static(__dirname + '/node_modules/remodal/dist'));
 
         // Add security layer
 
         // TODO enable!!!
-        // self.app.use('/bets', security);
+        self.app.use('/bets', security);
 
         self.app.use('/bets', bets);
     };

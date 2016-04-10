@@ -14,18 +14,26 @@ exports.get = function (callback) {
 /**
  *
  * @param params
+ * @param emailOrig
  * @param callback
  */
-exports.save = function (params, callback) {
+exports.save = function (params, emailOrig, callback) {
 
-    // TODO Data validation
+    // Data validation
     var date = params.date,
         email = params.email,
         gender = params.gender
         ;
-    if(!moment(date).isValid() || !params.date){callback(new Error('Invalid date'), null);}
-    if(!validator.isEmail(email)){callback(new Error('Invalid email'), null);}
-    if(!model.isValidGender(gender)){callback(new Error('Invalid gender'), null);}
+
+    // TODO Remove
+    if(!params.date) console.log('Date not in params');
+    if(!moment(date).isValid()) console.log('Moment is not validating date ' + date);
+
+
+    if(!params.date || !moment(date).isValid()){callback(new Error('Invalid date'), null);return;}
+    if(!params.email || !validator.isEmail(email)){callback(new Error('Invalid email'), null);return;}
+    if(email != emailOrig){callback(new Error('Sent email ' + email + ' is not the same as authenticated one ' + emailOrig), null);return;}
+    if(!params.gender || !model.isValidGender(gender)){callback(new Error('Invalid gender'), null);return;}
 
     // TODO Check availability of date
     model.isBetAvailable(params, function(err){

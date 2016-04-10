@@ -7,19 +7,20 @@ define(function (require) {
         dateHelper = require('../Helpers/Date').default,
         datepicker = require('../Helpers/DatepickerCustom'),
         Backbone = require('backbone'),
+        Bet = require('../Model/Bet').default,
+        DateBetSet = require('../Model/DateBetSet').default,
         dateBetSetCollection = require('../Model/DateBetSetCollection').default,   // Yes, as it's exporting the "default" object
         ModalView = require('./ModalView'),
+        t = require('Lib/Messages').translate,
         template = require('./Templates/CalendarIcons.hbs')
         ;
 
     var CalendarView = Backbone.View.extend({
 
         stateModel: new (Backbone.Model.extend({
-            defaults: {
-                
-            }
+            defaults: {}
         }))(),
-        
+
         template: template,
 
         defaults: {
@@ -54,6 +55,10 @@ define(function (require) {
             if (null == this.datepicker) {
                 this.datepicker = this.$el.datepicker({
                     numberOfMonths: 2,
+                    firstDay: 1, // Start with Monday
+                    minDate: new Date('2016-04-01'),
+                    maxDate: new Date('2016-06-21'),
+                    dayNamesMin: t('calendar.dayNamesMin').split(','),
 
                     // Render each day method
                     beforeShowDay: this.calendarEachDay,
@@ -61,8 +66,9 @@ define(function (require) {
                     // onChangeMonthYear: this.calendarAddIcons,
                     afterShow: _.bind(this.calendarAddIcons, this),
 
-                    // TODO onSelect method
-                    onSelect: this.calendarSelect
+                    // onSelect method
+                    onSelect: _.bind(this.calendarSelect, this),
+
                 });
             } else {
                 this.$el.datepicker('refresh');
@@ -70,8 +76,9 @@ define(function (require) {
 
             return this;
         },
-        
-        loadData: function(){
+
+        loadData: function () {
+            this.currentUserBet = null;
             dateBetSetCollection.fetch({reset: true});
         },
 
@@ -103,37 +110,43 @@ define(function (require) {
         },
 
         /**
-         * When rendered, add bets icons 
+         * When rendered, add bets icons
          */
         calendarAddIcons: function () {
 
-            if(false == dateBetSetCollection.size()){
+            if (false == dateBetSetCollection.size()) {
                 return;
             }
-            
+
             this.$el.find('.dayWithBets').each(_.bind(function (i, v) {
                 var link = v.getElementsByTagName("a")[0],
                     d = dateHelper.parseStringDate(v.getAttribute('data-year'), v.getAttribute('data-month'), link.innerHTML),
                     currentBets = dateBetSetCollection.findByDate(d),
                     context = {bets: currentBets.get('betCollection').toJSON()}
                     ;
-                
+
                 link.insertAdjacentHTML('afterbegin', this.template(context));
             }, this));
         },
 
         // TODO
-        calendarSelect: function (date) {
-            var d = dateHelper.parseIsoDate(date),
-                currentBets = dateBetSetCollection.findByDate(d);
-            
-            // TODO Instantiate new view ModalView
+        calendarSelect: function (date, inst) {
+            // As we added some html in <a> attribute, we cannot trust param date anymore
+            var d = dateHelper.parseStringDate(
+                    inst.selectedYear,
+                    inst.selectedMonth,
+                    inst.selectedDay
+                ),
+                currentBets = dateBetSetCollection.findByDate(d) || new DateBetSet({date:d});
+
+            // Instantiate new view ModalView
             // Send this.stateModel as observer
             this.observer.trigger('showModal', {
-                view:new ModalView({
-                    observer:this.stateModel,
-                    onSuccess:'refresh',
-                    currentBets:currentBets
+                view: new ModalView({
+                    model: (this._getUserBets() ? this._getUserBets() : new Bet()),
+                    observer: this.stateModel,
+                    onSuccess: 'refresh',
+                    currentBets: currentBets
                 })
             });
         },
@@ -141,9 +154,17 @@ define(function (require) {
         // Prepare calendar data
         addAll: function () {
             // Set current user if it exists
-            this.currentUserBet = dateBetSetCollection.findBetByEmail(window.app.conf.EMAIL || '');
+            this._getUserBets();
 
             this.render();
+        },
+
+        _getUserBets: function(){
+            if(!this.currentUserBet){
+                this.currentUserBet = dateBetSetCollection.findBetByEmail(window.app.conf.EMAIL || '');
+            }
+
+            return this.currentUserBet;
         }
 
 

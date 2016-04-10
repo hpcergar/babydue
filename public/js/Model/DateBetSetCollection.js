@@ -20,17 +20,18 @@ class DateBetSetCollection extends Collection{
      * @returns {null|Bet}
      */
     findBetByEmail(email){
-        var result = this.find(function(dateBetSet){
+        var found = null;
+        
+        // Capture first and store in found bet model
+        this.findWhere(function(dateBetSet){
             var bet = dateBetSet.findBetByEmail(email);
+            if(bet != undefined){
+                found = bet;
+            }
             return bet != undefined;
         });
         
-        return result;
-        // if(result && result.length > 0){
-        //     return result[0];
-        // }
-        
-        // return null;
+        return found;
     }
 
     /**

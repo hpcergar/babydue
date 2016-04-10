@@ -1,1 +1,46 @@
-Hey
+<h1>{{t 'Place your bet on day'}} {{dateformat date}}</h1>
+
+{{! If current user bet, then display a message }}
+{{#if currentUserBet.email}}
+{{#isnt currentUserBet.date date}}
+<h2>{{t 'Your current bet of'}} {{dateformat currentUserBet.date}} {{t 'will be changed to this'}}</h2>
+{{/isnt}}
+{{/if}}
+
+<div class="row">
+    {{! display choices, with already selected }}
+    {{#each bets}}
+    <button class="choice btn btn-default
+        {{! If its us and is this very bet mark it as selected }}
+        {{~#if ../currentUserBet.email~}}
+            {{~#is ../currentUserBet.date date}}{{#is ../currentUserBet.gender @key}} selected btn-success{{/is}}{{/is~}}
+        {{~/if~}}
+        "
+
+        {{! Other user choice, disabled }}
+        {{~#if this}}
+            {{~#if this.email~}}
+                {{~#isnt this.email ../currentUserBet.email}} disabled="disabled"{{/isnt~}}
+            {{~/if~}}
+        {{~/if~}}
+
+        data-gender="{{@key}}" data-date="{{../date}}"
+        >
+
+        <i class="fa fa-4x
+    {{#is @key 'd'}}fa-ra{{/is}}
+    {{#is @key 'f'}}fa-venus{{/is}}
+    {{#is @key 'm'}}fa-mars{{/is}}
+     {{@key}}" title="{{#if this}}{{this.email}}{{/if}}"></i>
+
+        {{! Other user choice disabled }}
+        {{~#if this}}
+        {{~#if this.name~}}
+        <span class="author">{{this.name}}</span>
+        {{~/if~}}
+        {{~/if~}}
+
+    </button>
+    {{/each}}
+
+</div>

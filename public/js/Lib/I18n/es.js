@@ -11,6 +11,10 @@ define([], function () {
         "OK": "OK",
         "Are you sure?": "¿Está seguro?",
         "token_fail": "Autentificación fallida",
+        "Place your bet on day": "Creo que será el día",
+        "Your current bet of": "Tu apuesta del día",
+        "will be changed to this": "será remplazada por ésta",
+        "calendar.dayNamesMin": "D,L,M,X,J,V,S",
     }
 
 });

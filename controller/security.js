@@ -2,7 +2,7 @@
 
 // TODO to config
 var crypto = require('crypto'),
-    salt = '2D23PsgZdDLMu225'
+    salt = require('../config/config').salt || '2D23PsgZdDLMu225'
     ;
 
 /**

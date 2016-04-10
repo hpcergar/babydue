@@ -1,10 +1,44 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    urlencoded = bodyParser.urlencoded({ extended: false}),
+    // urlencoded = bodyParser.urlencoded({ extended: false}),
+    jsonencoded = bodyParser.json(),
     router = express.Router(),
     bets = require('../controller/bets')
     ;
+
+
+/**
+ * Handle insertion/update
+ *
+ * @param request
+ * @param response
+ * @param errorCode
+ */
+function handleUpsert(request, response, errorCode){
+
+    // TODO The whole body? What about security args when posting?
+    // TODO Remove
+    console.log(request.body);
+    console.log(request.query);
+    console.log(request.params);
+    
+    var email = request.query.emailOrig || request.query.email;
+
+    bets.save(request.body, email, function(error){
+        if(error){
+            console.log(error.message);
+            response
+                .status(errorCode)
+                .json({ error: error.message });
+            return;
+        }
+
+        response
+            .status(201)
+            .json(request.body);
+    });
+}
 
 
 router.route('/')
@@ -20,38 +54,15 @@ router.route('/')
         });
     })
 
-    .post(urlencoded, function (request, response) {
-        // TODO The whole body? What about security args when posting?
-        bets.save(request.body, function(error){
-            if(error){
-                response
-                    .status(409)
-                    .json({ error: error.message });
-                return;
-            }
-
-            response
-                .status(201)
-                .json(request.body);
-        });
+    .post(jsonencoded, function (request, response) {
+        handleUpsert(request, response, 409);
     })
 ;
 
 
 router.route('/:email')
-    .put(function (request, response) {
-        bets.save(request.body, function(error){
-            if(error){
-                response
-                    .status(404)
-                    .json({ error: error.message });
-                return;
-            }
-
-            response
-                .status(201)
-                .json(request.body);
-        });
+    .put(jsonencoded, function (request, response) {
+        handleUpsert(request, response, 404);
     })
 ;
 

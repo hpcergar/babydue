@@ -1,4 +1,9 @@
 
+html,
+body {
+    height: 100%;
+}
+
 /* Datepicker */
 .ui-datepicker-multi-2{
     width: auto !important;
@@ -31,6 +36,8 @@
         background-color: #8bcc6b;
     }
 
+
+
 /*replace the content value with the
 corresponding value from the list below*/
 
@@ -41,12 +48,37 @@ i.m, i.f, i.d{
     font-weight: normal;
     text-decoration: inherit;
     color: #000;
-    font-size: 1.5em;
-    padding-right: 0.1em;
+}
 
+.ui-datepicker-group i.m, .ui-datepicker-group i.f, .ui-datepicker-group i.d{
+    padding-right: 0.1em;
+    font-size: 1.5em;
 }
 
 /* Gender classes, one each */
+/* @deprecated
 i.m { content: "\f222";}
 i.f { content: "\f221";}
-i.d { content: "\f1d0";} /* TODO */
+i.d { content: "\f1d0";}
+
+*/
+/* Modal */
+.choicesModal{
+
+}
+
+    .choicesModal .choice{
+        display:inline-block;
+        margin: 2em 1em;
+    }
+        .choicesModal .choice.btn-success i{
+            color:white;
+        }
+
+    .choicesModal .choice .m,
+    .choicesModal .choice .f,
+    .choicesModal .choice .d
+    {
+        margin: 0.75em;
+    }
+

@@ -4,7 +4,7 @@ class Bet extends Model{
     constructor(attributes, options){
         super(attributes, options);
 
-        this.url = '/bets';
+        this.url = '/bets?email=' + window.app.conf.EMAIL + '&signature=' + window.app.conf.SIGNATURE;
     }
     
     defaults(){
@@ -15,10 +15,6 @@ class Bet extends Model{
             gender: ''
         }
     }
-
-    // TODO Url()
-
-    // TODO Parse()
 
 }
 

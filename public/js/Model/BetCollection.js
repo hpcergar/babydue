@@ -1,4 +1,5 @@
 import {Collection} from 'backbone';
+import Backbone from 'Security/BackboneBet';
 import Bet from 'Model/Bet';
 
 
@@ -20,6 +21,10 @@ class BetCollection extends Collection{
      */
     findBetByEmail(email){
         return this.findWhere({email: email});
+    }
+    
+    findBetByGender(gender){
+        return this.findWhere({gender: gender});
     }
 
 }

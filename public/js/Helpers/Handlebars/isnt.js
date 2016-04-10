@@ -1,13 +1,13 @@
 /**
  * Handlebars Helper loaded by webpack's handlebars loader
- * registering this file's name as the helper name ("is" here)
+ * registering this file's name as the helper name ("isnt" here)
  */
 
-// Exports as "is" helper
+// Exports as "isnt" helper
 module.exports = function(value, test, options){
-    if(value && value == test){
+    if (value !== test) {
         return options.fn(this);
-    }else{
+    } else {
         return options.inverse(this);
     }
 };

@@ -1,4 +1,6 @@
 .openshift
 node_modules
 README_private.md
-public/js/bundle.*
+
+/config/config.js
+/public/js/bundle.*
