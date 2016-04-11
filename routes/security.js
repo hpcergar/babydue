@@ -21,7 +21,7 @@ router.use(function(request, response, next){
         sendError('Unauthorized: missing auth token');
     }
 
-    var bearer = request.headers.authorization.split(' ')[1], // TODO get bearer from auth http header
+    var bearer = request.headers.authorization.split(' ')[1], // get bearer from auth http header
         decoded = CryptoJS.enc.Base64.parse(bearer).toString(CryptoJS.enc.Utf8),
         email = decoded.split(':')[0],
         signature = decoded.split(':')[1];

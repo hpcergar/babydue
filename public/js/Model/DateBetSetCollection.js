@@ -48,9 +48,6 @@ class DateBetSetCollection extends Collection{
     // Parse from server
     parse(response){
 
-        // TODO empty object first?
-
-
         for(var key in response){
             if(response.hasOwnProperty(key)){
                 this.push({date: key});

@@ -229,13 +229,13 @@ exports.isBetAvailable = function(bet, callback){
 
 
 exports.save = function(data, callback){
-    // TODO Remove previous bet if found for email
+    // Remove previous bet if found for email
     deleteByEmail(data.email, function(err){
         if(err){
             callback(err);
             return;
         }
-        // TODO save to JSON and save
+        // save to JSON and save
         saveBet(data);
         flush(callback);
     })

@@ -24,10 +24,13 @@ define(function(require){
 
         initialize: function(){
 
-            // TODO Main events here (Flash messages? Popup?)
+            // Main events here (Flash messages? Popup?)
             this.listenTo(this.stateModel, 'showModal', this.showModal);
             
             this.calendarView = new CalendarView({observer:this.stateModel});
+            
+            // Add to main context for notifications
+            window.appObserver = this.stateModel;
 
         },
         
@@ -57,10 +60,6 @@ define(function(require){
             // Call Modal
             this.modal.$modal.find('[data-remodal-content=main]').html(view.render().$el);
             this.modal.open();
-        },
-
-        showFlashMessage: function(options){
-            // TODO Use Noty (http://ned.im/noty/#/about) to flash messages
         }
     });
 

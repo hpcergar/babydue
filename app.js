@@ -33,7 +33,7 @@ var Main = function(){
 
         // Add security layer
 
-        // TODO enable!!!
+        // enable!!!
         self.app.use('/bets', security);
 
         self.app.use('/bets', bets);

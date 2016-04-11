@@ -6,6 +6,8 @@ define(function (require) {
         jQuery = require('jquery'),
         dateHelper = require('../Helpers/Date').default,
         Backbone = require('backbone'),
+        UserNotifications = require('../Helpers/UserNotifications').default,
+        t = require('../Lib/Messages').translate,
         template = require('./Templates/Modal.hbs')
         ;
 
@@ -64,7 +66,7 @@ define(function (require) {
          */
         handleBet: function(e){
             console.log('handled!');
-            // TODO Get data from clicked el (param e)
+            // Get data from clicked el (param e)
             var date = e.currentTarget.getAttribute('data-date'),
                 gender = e.currentTarget.getAttribute('data-gender')
             ;
@@ -91,20 +93,21 @@ define(function (require) {
             this.model.save(null, {
                 success :_.bind(function() {
 
-                    // TODO Remove other "btn-success" classes
+                    // Remove other "btn-success" classes
                     this.$el.find('.btn-success').removeClass('btn-success');
 
                     // Then add new
                     el.classList.add('btn-success');
 
                     // Notify
-                    this.onSaveSuccess()
+                    this.onSaveSuccess();
                 }, this),
-                error: this.onSaveError});
+                error: _.bind(this.onSaveError, this)});
         },
 
+        // TODO Nice to have
         removeBet: function(){
-            // TODO
+
             // this.model.destroy();
 
             this.onSaveSuccess();
@@ -114,15 +117,16 @@ define(function (require) {
          * When sending data to server, if everything ok, notify observer
          */
         onSaveSuccess:function(){
-
-
-
+            UserNotifications.showSuccess(t('Bet saved'));
             // Fire events on observer
             this.observer.trigger(this.onSuccess);
         },
 
+        /**
+         * When error sending bet to server
+         */
         onSaveError:function(){
-            // TODO
+            UserNotifications.showError(t('Error saving bet'));
         }
 
 

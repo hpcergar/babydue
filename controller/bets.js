@@ -7,7 +7,6 @@ var model = require('../models/bets'),
     ;
 
 exports.get = function (callback) {
-    // TODO List bets mapped by date
     model.getAll(callback);
 };
 
@@ -25,17 +24,12 @@ exports.save = function (params, emailOrig, callback) {
         gender = params.gender
         ;
 
-    // TODO Remove
-    if(!params.date) console.log('Date not in params');
-    if(!moment(date).isValid()) console.log('Moment is not validating date ' + date);
-
-
     if(!params.date || !moment(date).isValid()){callback(new Error('Invalid date'), null);return;}
     if(!params.email || !validator.isEmail(email)){callback(new Error('Invalid email'), null);return;}
     if(email != emailOrig){callback(new Error('Sent email ' + email + ' is not the same as authenticated one ' + emailOrig), null);return;}
     if(!params.gender || !model.isValidGender(gender)){callback(new Error('Invalid gender'), null);return;}
 
-    // TODO Check availability of date
+    // Check availability of date
     model.isBetAvailable(params, function(err){
         /* params format: {
                 "date" : "2016-01-01",
@@ -48,7 +42,7 @@ exports.save = function (params, emailOrig, callback) {
             return;
         }
 
-        // TODO Save bet by email
+        // Save bet by email
         model.save({
             "date":date,
             "email":email,
@@ -56,6 +50,5 @@ exports.save = function (params, emailOrig, callback) {
         }, callback);
     });
 };
-
 
 

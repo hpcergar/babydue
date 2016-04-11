@@ -38,11 +38,8 @@ define(function (require) {
             // Main events here
             this.listenTo(dateBetSetCollection, 'reset', this.addAll); // When fetching / reset
 
-            // TODO Event listenTo Collection event (add? update?)
-            //this.listenTo(dateBetSetCollection, 'TODO', this.render); // TODO Change event?
-
             // After sending a bet in the modal, refresh display 
-            // TODO trigger event in modalView
+            // trigger event in modalView
             this.listenTo(this.stateModel, 'refresh', this.loadData);
 
             // Fetch initial bets data
@@ -129,7 +126,11 @@ define(function (require) {
             }, this));
         },
 
-        // TODO
+        /**
+         * Select day in calendar callback
+         * @param date
+         * @param inst
+         */
         calendarSelect: function (date, inst) {
             // As we added some html in <a> attribute, we cannot trust param date anymore
             var d = dateHelper.parseStringDate(

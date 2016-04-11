@@ -15,6 +15,9 @@ define([], function () {
         "Your current bet of": "Tu apuesta del día",
         "will be changed to this": "será remplazada por ésta",
         "calendar.dayNamesMin": "D,L,M,X,J,V,S",
+
+        "Bet saved": "Apuesta guardada",
+        "Error saving bet": "Error guardando la apuesta",
     }
 
 });

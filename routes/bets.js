@@ -17,12 +17,6 @@ var express = require('express'),
  */
 function handleUpsert(request, response, errorCode){
 
-    // TODO The whole body? What about security args when posting?
-    // TODO Remove
-    console.log(request.body);
-    console.log(request.query);
-    console.log(request.params);
-    
     var email = request.query.emailOrig || request.query.email;
 
     bets.save(request.body, email, function(error){
