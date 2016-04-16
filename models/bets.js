@@ -3,6 +3,7 @@
 var fs = require('fs'),
     path = require('path'),
     file = path.join(__dirname, '..', 'data', 'bets.json'),
+    storageAdapter = require('../storage/adapter'),
     dataCached,
     validGenders = {
         'm':'man',
@@ -12,14 +13,11 @@ var fs = require('fs'),
     ;
 
 
-
-
-exports.getAll = getBets;
-
-
-
 /**
  * Get data from cache of file
+ *
+ * @storage
+ *
  * @param callback
  */
 function getData(callback){
@@ -27,34 +25,47 @@ function getData(callback){
         callback(null, dataCached);
         return;
     }
-    getDataFromFile(callback);
+    
+    // getDataFromFile(callback);
+
+    storageAdapter.fetch(function(err, data){
+        dataCached = JSON.parse(data);
+        console.log('Data retrieved from file');
+
+        callback(null, dataCached);
+    });
 }
-
-/**
- * Load file data
- * @param callback
- */
-function getDataFromFile(callback){
-    // Find in file
-    //fs.readFile(file, 'utf8', function(err, data){
-    //    if(err) callback(new Error('No data source available'), null);
-    //    dataCached = JSON.parse(data);
-    //    console.log('Data retrieved from file');
-    //    callback(null, dataCached);
-    //});
-
-    // Change to sync version due to multiple callback calls in async
-    var data = fs.readFileSync(file, 'utf8');
-
-    dataCached = JSON.parse(data);
-    console.log('Data retrieved from file');
-
-    callback(null, dataCached);
-}
+//
+// /**
+//  * Load file data
+//  *
+//  * @storage
+//  *
+//  * @param callback
+//  */
+// function getDataFromFile(callback){
+//     // Find in file
+//     //fs.readFile(file, 'utf8', function(err, data){
+//     //    if(err) callback(new Error('No data source available'), null);
+//     //    dataCached = JSON.parse(data);
+//     //    console.log('Data retrieved from file');
+//     //    callback(null, dataCached);
+//     //});
+//
+//     // Change to sync version due to multiple callback calls in async
+//     var data = fs.readFileSync(file, 'utf8');
+//
+//     dataCached = JSON.parse(data);
+//     console.log('Data retrieved from file');
+//
+//     callback(null, dataCached);
+// }
 
 /**
  *
  * @todo there is something smelly in this callback call...
+ *
+ * @storage
  *
  * @param callback
  */
@@ -82,6 +93,31 @@ function getBets(callback){
         // Get only bets
         callback(null, data.bets);
     })
+}
+
+
+/**
+ * Map cached data into a list of emails with selected date and gender
+ * @param data
+ * @returns {{}}
+ */
+function mapByEmail(data){
+    var map = {};
+
+    // Loop over dates
+    for (var date in data) {
+        if (data.hasOwnProperty(date)){
+            // Loop over possible genders
+            for (var gender in data[date]) {
+                if (data[date].hasOwnProperty(gender)){
+                    // Set a list of emails-based key with selected date and gender
+                    map[data[date][gender]] = {date : date, gender : gender}
+                }
+            }
+        }
+    }
+
+    return map;
 }
 
 
@@ -119,6 +155,11 @@ function deleteBet(data){
     if(data && bets[data.date]){
         delete bets[data.date][data.gender];
         console.log('Bet removed from cached data');
+
+        // Clean up empty dates
+        if( Object.keys(bets[data.date]).length === 0){
+            delete bets[data.date];
+        }
     }
 
     dataCached.bets = bets;
@@ -171,32 +212,12 @@ function findByEmail(email, callback){
     });
 }
 
+
 /**
- * Map cached data into a list of emails with selected date and gender
- * @param data
- * @returns {{}}
+ * Exported main get Bets
+ * @type {getBets}
  */
-function mapByEmail(data){
-    var map = {};
-
-    // Loop over dates
-    for (var date in data) {
-        if (data.hasOwnProperty(date)){
-            // Loop over possible genders
-            for (var gender in data[date]) {
-                if (data[date].hasOwnProperty(gender)){
-                    // Set a list of emails-based key with selected date and gender
-                    map[data[date][gender]] = {date : date, gender : gender}
-                }
-            }
-        }
-    }
-
-    return map;
-}
-
-
-
+exports.getAll = getBets;
 
 /**
  * Validates given gender
@@ -237,7 +258,7 @@ exports.save = function(data, callback){
         }
         // save to JSON and save
         saveBet(data);
-        flush(callback);
+        storageAdapter.flush(dataCached, callback);
     })
 };
 

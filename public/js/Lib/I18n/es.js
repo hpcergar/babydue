@@ -10,7 +10,8 @@ define([], function () {
 
         "OK": "OK",
         "Are you sure?": "¿Está seguro?",
-        "token_fail": "Autentificación fallida",
+        "Unauthorized": "Autentificación fallida",
+        "You don't have access to this content": "Contenido protegido",
         "Place your bet on day": "Creo que será el día",
         "Your current bet of": "Tu apuesta del día",
         "will be changed to this": "será remplazada por ésta",

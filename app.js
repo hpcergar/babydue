@@ -1,5 +1,6 @@
 var express = require('express'),
     security = require('./routes/security'),
+    login = require('./routes/login'),
     bets = require('./routes/bets')
     ;
 
@@ -32,11 +33,13 @@ var Main = function(){
         self.app.use('/remodal', express.static(__dirname + '/node_modules/remodal/dist'));
 
         // Add security layer
-
-        // enable!!!
         self.app.use('/bets', security);
-
         self.app.use('/bets', bets);
+
+        self.app.use('/login', security);
+        self.app.use('/login', login);
+
+        
     };
 
     self.start = function(){

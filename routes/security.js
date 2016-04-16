@@ -2,7 +2,8 @@ var express = require('express'),
     app = express(),
     router = express.Router(),
     CryptoJS = require('crypto-js'),
-    security = require('../controller/security')
+    security = require('../controller/security'),
+    users = require('../models/users')
     ;
 
 
@@ -18,7 +19,7 @@ router.use(function(request, response, next){
     //     signature = request.query.signature;
     if(!request.headers.authorization){
         console.log('No header authorization sent');
-        sendError('Unauthorized: missing auth token');
+        return next(sendError('Unauthorized: missing auth token'));
     }
 
     var bearer = request.headers.authorization.split(' ')[1], // get bearer from auth http header
@@ -32,12 +33,15 @@ router.use(function(request, response, next){
         console.log('Error params: Email [' + email + '], Signature [' + signature + ']');
         return next(sendError());
     }
+
+    // TODO is email in authorized list?
+    if(false === users.isValidUser(email)){
+        console.log('Error: unrecognized user [' + email + ']');
+        return next(sendError());
+    }
     
     // Forward original authenticated email to other middlewares
     request.query.emailOrig = email;
-
-    // TODO is email in authorized list?
-
 
     next();
 },
