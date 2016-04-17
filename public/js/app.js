@@ -10,6 +10,8 @@ function getURLParameter(name) {
 
 var lang = navigator.language,
     conf = _.extend({
+        // Birth estimated date
+        ESTIMATED_DATE: '2016-06-07',
         LANG: /fr/.test(lang) ? 'fr' : (/es/.test(lang) ? 'es' : 'en'),
         EMAIL:  getURLParameter('email'),
         SIGNATURE: getURLParameter('signature')  

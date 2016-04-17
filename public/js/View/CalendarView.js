@@ -25,7 +25,8 @@ define(function (require) {
 
         defaults: {
             currentUserBet: null,
-            datepicker: null
+            datepicker: null,
+            calendarNumberOfMonths: 2
         },
 
         // List of bets
@@ -42,6 +43,12 @@ define(function (require) {
             // trigger event in modalView
             this.listenTo(this.stateModel, 'refresh', this.loadData);
 
+            // Add on resize for calendar number of months
+            $(window).on("resize", _.throttle(_.bind(this.calendarOnResize, this), 50));
+
+            // Fetch initial resolution
+            this.calendarOnResize();
+
             // Fetch initial bets data
             this.loadData();
         },
@@ -51,9 +58,9 @@ define(function (require) {
             // Load Calendar with data (if already loaded, else just display the calendar)
             if (null == this.datepicker) {
                 this.datepicker = this.$el.datepicker({
-                    numberOfMonths: 2,
+                    numberOfMonths: this.calendarNumberOfMonths,
                     firstDay: 1, // Start with Monday
-                    minDate: new Date('2016-04-01'),
+                    minDate: new Date('2016-05-01'),
                     maxDate: new Date('2016-06-21'),
                     dayNamesMin: t('calendar.dayNamesMin').split(','),
 
@@ -81,6 +88,7 @@ define(function (require) {
 
         /**
          * Method to be executed for each day in the calendar
+         * adding css classes for dates with events, current selection and estimated date
          *
          * @param date Current rendering date
          * @returns {*[]}   [bool, css classes, tooltip text]
@@ -101,6 +109,10 @@ define(function (require) {
                         classes.push('currentSelection');
                     }
                 });
+            }
+            
+            if(d === window.app.conf.ESTIMATED_DATE){
+                classes.push('estimatedDate');
             }
 
             return [true, classes.join(' '), ''];
@@ -150,6 +162,25 @@ define(function (require) {
                     currentBets: currentBets
                 })
             });
+        },
+
+        /**
+         * Change number of months by browser resolution
+         */
+        calendarOnResize: function(){
+            // Check screen width
+            var width = $(window).width(),
+            // If < 768px, then change number of months
+                newNumberOfMonths = (width < 768 ? 1 : 2)
+                ;
+
+            if(this.calendarNumberOfMonths != newNumberOfMonths){
+                this.calendarNumberOfMonths = newNumberOfMonths;
+                if (null != this.datepicker){
+                    this.$el.datepicker( "option", "numberOfMonths", this.calendarNumberOfMonths );
+                }
+            }
+
         },
 
         // Prepare calendar data

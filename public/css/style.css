@@ -2,14 +2,264 @@
 html,
 body {
     height: 100%;
+    font-family: "Merriweather","Helvetica Neue",Arial,sans-serif;
 }
 
+header {
+    font-size: 5em;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+    padding: 30px 0 10px;
+    text-align: center;
+    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);*/
+    text-transform: uppercase;
+}
+
+section {
+    padding: 100px 0;
+}
+
+section:first-of-type {
+    padding: 50px 0;
+}
+
+header, h1, h2, h3, h4, h5, h6 {
+    font-family: "Open Sans","Helvetica Neue",Arial,sans-serif;
+}
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.section-heading{
+    margin-top:0;
+}
+
+    .text-primary {
+        color: #f05f40;
+    }
+
+    .text-faded {
+        color: rgba(255, 255, 255, 0.75);
+    }
+    .text-muted {
+        color: #777;
+    }
+
+.bg-primary {
+    background-color: #f05f40;
+}
+
+
+hr.light {
+    border-color: white;
+}
+hr {
+    border-color: #f05f40;
+    border-width: 3px;
+    max-width: 50px;
+}
+
+.service-box {
+    margin: 20px auto 0;
+    max-width: 400px;
+}
+
+footer {
+    padding: 30px 0;
+    text-align: center;
+    background-color: #222222;
+    color: white;
+}
+
+
+
+/* Timeline */
+.timeline {
+    list-style: outside none none;
+    padding: 0;
+    margin-top: 1em;
+    position: relative;
+}
+.timeline::before {
+    background-color: #f1f1f1;
+    bottom: 0;
+    content: "";
+    left: 40px;
+    margin-left: -1.5px;
+    position: absolute;
+    top: 0;
+    width: 2px;
+}
+.timeline > li {
+    margin-bottom: 50px;
+    min-height: 50px;
+    position: relative;
+}
+.timeline > li::before, .timeline > li::after {
+    content: " ";
+    display: table;
+}
+.timeline > li::after {
+    clear: both;
+}
+.timeline > li .timeline-panel {
+    float: right;
+    padding: 0 20px 0 100px;
+    position: relative;
+    text-align: left;
+    width: 100%;
+}
+.timeline > li .timeline-panel::before {
+    border-left-width: 0;
+    border-right-width: 15px;
+    left: -15px;
+    right: auto;
+}
+.timeline > li .timeline-panel::after {
+    border-left-width: 0;
+    border-right-width: 14px;
+    left: -14px;
+    right: auto;
+}
+.timeline > li .timeline-image {
+    background-color: #fed136;
+    border: 7px solid #f1f1f1;
+    border-radius: 100%;
+    color: white;
+    height: 80px;
+    left: 0;
+    margin-left: 0;
+    position: absolute;
+    text-align: center;
+    width: 80px;
+    z-index: 100;
+}
+.timeline > li .timeline-image h4 {
+    font-size: 10px;
+    line-height: 14px;
+    margin-top: 12px;
+}
+.timeline > li.timeline-inverted > .timeline-panel {
+    float: right;
+    padding: 0 20px 0 100px;
+    text-align: left;
+}
+.timeline > li.timeline-inverted > .timeline-panel::before {
+    border-left-width: 0;
+    border-right-width: 15px;
+    left: -15px;
+    right: auto;
+}
+.timeline > li.timeline-inverted > .timeline-panel::after {
+    border-left-width: 0;
+    border-right-width: 14px;
+    left: -14px;
+    right: auto;
+}
+.timeline > li:last-child {
+    margin-bottom: 0;
+}
+.timeline .timeline-heading h4 {
+    color: inherit;
+    margin-top: 0;
+    margin-bottom:0;
+    text-transform: uppercase;
+}
+.timeline .timeline-heading {
+    margin-bottom:0.5em;
+}
+.timeline .timeline-heading h4.subheading {
+    text-transform: none;
+}
+.timeline .timeline-body > p, .timeline .timeline-body > ul {
+    margin-bottom: 0;
+}
+@media (min-width: 768px) {
+    .timeline::before {
+        left: 50%;
+    }
+    .timeline > li {
+        margin-bottom: 100px;
+        min-height: 100px;
+    }
+    .timeline > li .timeline-panel {
+        float: left;
+        padding: 0 20px 20px 30px;
+        text-align: right;
+        width: 41%;
+    }
+    .timeline > li .timeline-image {
+        height: 100px;
+        left: 50%;
+        margin-left: -50px;
+        width: 100px;
+    }
+    .timeline > li .timeline-image h4 {
+        font-size: 13px;
+        line-height: 18px;
+        margin-top: 16px;
+    }
+    .timeline > li.timeline-inverted > .timeline-panel {
+        float: right;
+        padding: 0 30px 20px 20px;
+        text-align: left;
+    }
+}
+@media (min-width: 992px) {
+    .timeline > li {
+        min-height: 150px;
+    }
+    .timeline > li .timeline-panel {
+        padding: 0 20px 20px;
+    }
+    .timeline > li .timeline-image {
+        height: 150px;
+        margin-left: -75px;
+        width: 150px;
+    }
+    .timeline > li .timeline-image h4 {
+        font-size: 18px;
+        line-height: 26px;
+        margin-top: 30px;
+    }
+    .timeline > li.timeline-inverted > .timeline-panel {
+        padding: 0 20px 20px;
+    }
+}
+@media (min-width: 1200px) {
+    .timeline > li {
+        min-height: 170px;
+    }
+    .timeline > li .timeline-panel {
+        padding: 0 20px 20px 100px;
+    }
+    .timeline > li .timeline-image {
+        height: 170px;
+        margin-left: -85px;
+        width: 170px;
+    }
+    .timeline > li .timeline-image h4 {
+        margin-top: 40px;
+    }
+    .timeline > li.timeline-inverted > .timeline-panel {
+        padding: 0 100px 20px 20px;
+    }
+}
+
+
+
 /* Datepicker */
-.ui-datepicker-multi-2{
+/*.ui-datepicker-multi-2{*/
+.ui-datepicker{
     width: auto !important;
-    min-width: 35em;
     max-width: 80%;
     margin: 0 auto;
+}
+.ui-datepicker-multi-2{
+    min-width: 35em;
 }
 .ui-datepicker-multi .ui-datepicker-group {
     float: left;
@@ -28,12 +278,73 @@ body {
     display: table;
 }
 
+.ui-widget-header, .ui-widget{
+    font-family: "Open Sans","Helvetica Neue",Arial,sans-serif;
+    font-weight: normal;
+}
+
+.ui-widget-header {
+    background: none;
+    border: 0;
+    font-weight: normal;
+}
+
+.ui-datepicker th {
+    color: #777;
+    font-weight: normal;
+}
+
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+    cursor:pointer;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    background: none;
+
+}
+
+.ui-datepicker td {
+    border: 0 none;
+    padding: 0; /* Remove espaces between cases*/
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    background: none;
+}
+
+
+.ui-datepicker td a,
+.ui-datepicker td.ui-state-disabled span
+{
+    height: 4em;
+    position:relative;
+}
+
+
+
+
 .dayWithBets {
 
 }
 
+    .estimatedDate {
+        background-color: #ebafff;
+    }
+
     .currentSelection {
         background-color: #8bcc6b;
+
+    }
+    .currentSelection i{
+        color: #333333;
+    }
+
+    .ui-state-active, .ui-widget-content .estimatedDate a{
+        border: 1px solid #8727d5;
+    }
+
+    .ui-state-active, .ui-widget-content .lastDate a{
+        border: 1px solid #9E1726;
     }
 
 
@@ -41,18 +352,42 @@ body {
 /*replace the content value with the
 corresponding value from the list below*/
 
+.cell-icons{
+    position:absolute;
+    left:0.3em;
+    bottom:0;
+    font-size: 0.8em;
+}
+
+.ui-datepicker td .cell-icons span{
+    display:inline-block;
+    width: 1.8em;
+}
+
 /* Gender classes default */
 i.m, i.f, i.d{
 
     font-style: normal;
     font-weight: normal;
     text-decoration: inherit;
-    color: #000;
+    /*color: #000;*/
 }
 
-.ui-datepicker-group i.m, .ui-datepicker-group i.f, .ui-datepicker-group i.d{
-    padding-right: 0.1em;
-    font-size: 1.5em;
+.ui-datepicker i.m, .ui-datepicker i.f, .ui-datepicker i.d{
+    /*padding-right: 0.1em;*/
+    font-size: 1em;
+}
+
+@media (min-width: 992px) {
+    .ui-datepicker i.m, .ui-datepicker i.f, .ui-datepicker i.d{
+        font-size: 1.2em;
+    }
+}
+
+@media (min-width: 1200px) {
+    .ui-datepicker i.m, .ui-datepicker i.f, .ui-datepicker i.d{
+        font-size: 1.5em;
+    }
 }
 
 /* Gender classes, one each */

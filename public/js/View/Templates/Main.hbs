@@ -2,11 +2,161 @@
 
 <header>{{t 'Header title'}}</header>
 
-<div id="calendar"></div>
+<section>
+    <div class="container">
+        <div id="calendar" class="row">
+            <!-- Calendar goes here -->
+        </div>
+    </div>
+</section>
 
-<p>{{t 'Presentation'}}</p>
+<section class="bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">{{t 'Presentation title'}}</h2>
+                <hr class="light"/>
+                <p class="text-faded">{{t 'Presentation'}}</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-<p>{{t 'Instructions'}}</p>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">{{t 'Instructions title'}}</h2>
+                <hr class="primary"/>
+                <p class="text-muted">{{t 'Instructions'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3 col-xs12 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-mars text-primary"></i>
+                    <h3>{{t 'boy'}}</h3>
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs12 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-venus text-primary"></i>
+                    <h3>{{t 'girl'}}</h3>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs12 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-ra text-primary"></i>
+                    <h3>{{t 'dragon'}}</h3>
+                </div>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">{{t 'Timeline'}}</h2>
+                <hr class="light"/>
+                <p class="text-faded">{{t 'Timeline introduction'}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="timeline">
+                    <li>
+                        <div class="timeline-image">
+                            <img class="img-circle img-responsive" alt="" src="img/garbancito.jpg">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="subheading">{{t 'Garbancito'}}</h4>
+                                <small>{{t 'Garbancito time'}}</small>
+                            </div>
+                            <div class="timeline-body">
+                                    <p class="text-faded">{{t 'Garbancito text'}}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                            <img class="img-circle img-responsive" alt="" src="img/almendrita.jpg">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="subheading">{{t 'Almendrita'}}</h4>
+                                <small>{{t 'Almendrita time'}}</small>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-faded">{{t 'Almendrita text'}}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image">
+                            <img class="img-circle img-responsive" alt="" src="img/naranjito.jpg">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="subheading">{{t 'Naranjito'}}</h4>
+                                <small>{{t 'Naranjito time'}}</small>
+                            </div>
+                            <div class="timeline-body">
+                                    <p class="text-faded">{{t 'Naranjito text'}}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                            <img class="img-circle img-responsive" alt="" src="img/manzanita.jpg">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="subheading">{{t 'Manzanita'}}</h4>
+                                <small>{{t 'Manzanita time'}}</small>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-faded">{{t 'Manzanita text'}}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image">
+                            <img class="img-circle img-responsive" alt="" src="img/coquito.jpg">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="subheading">{{t 'Coquito'}}</h4>
+                                <small>{{t 'Coquito time'}}</small>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-faded">{{t 'Coquito text'}}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                            <img class="img-circle img-responsive" alt="" src="img/lechuguita.jpg">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="subheading">{{t 'Lechuguita'}}</h4>
+                                <small>{{t 'Lechuguita time'}}</small>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-faded">{{t 'Lechuguita text'}}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
 <footer>{{t 'Footer'}}</footer>
 
