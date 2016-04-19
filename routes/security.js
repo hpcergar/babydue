@@ -34,7 +34,7 @@ router.use(function(request, response, next){
         return next(sendError());
     }
 
-    // TODO is email in authorized list?
+    // Is email in authorized list?
     if(false === users.isValidUser(email)){
         console.log('Error: unrecognized user [' + email + ']');
         return next(sendError());
