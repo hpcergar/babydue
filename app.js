@@ -13,6 +13,10 @@ var Main = function(){
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
         self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
+        console.log('Port ' + self.port);
+        console.log('Port openshift ' + process.env.OPENSHIFT_NODEJS_PORT);
+        console.log('IP ' + self.ipaddress);
+
         if (typeof self.ipaddress === "undefined") {
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
             //  allows us to run/test the app locally.
@@ -46,7 +50,7 @@ var Main = function(){
         self.setupVariables();
         self.initializeServer();
 
-        self.app.listen(self.port, function(){
+        self.app.listen(self.port, self.ipaddress, function(){
             console.log('Starting app on port ' + self.port);
         });
     }

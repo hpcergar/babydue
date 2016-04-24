@@ -2,5 +2,7 @@
 node_modules
 README_private.md
 
+/data/users.json
+/data/bets.json
 /config/config.js
-/public/js/bundle.*
+#/public/js/bundle.*
